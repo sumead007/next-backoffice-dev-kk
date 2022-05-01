@@ -1,78 +1,158 @@
-import { Layout, Menu, MenuProps } from "antd";
-import React from "react";
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UserOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-} from "@ant-design/icons";
-const { Header, Content, Footer, Sider } = Layout;
+import * as React from "react";
+import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import MuiDrawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from "@mui/icons-material/Home";
+import HistoryIcon from "@mui/icons-material/History";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
+import BlindsClosedIcon from "@mui/icons-material/BlindsClosed";
+import Router from "next/router";
+type Props = {
+  open: any;
+  handleDrawerClose: any;
+};
 
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  AppstoreOutlined,
-  TeamOutlined,
-  ShopOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
-
-const items2: MenuProps["items"] = [
-  UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-].map((icon, index) => {
-  const key = String(index + 1);
-
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
+const drawerWidth = 240;
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: "hidden",
+});
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: "hidden",
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
 });
 
-export default function Slidebar() {
- return <>
-    <Sider
-      style={{
-        overflow: "auto",
-        height: "100vh",
-        position: "fixed",
-        left: 0,
-        top: 0,
-        bottom: 0,
-      }}
-    >
-      <div className="logo" />
-      <Menu
-        mode="inline"
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        style={{ height: "100%" }}
-        items={items2}
-        theme="dark"
-      />
-      {/* <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} /> */}
-    </Sider>
-  </>;
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+export default function Slidebar({ open, handleDrawerClose }: Props) {
+  const theme = useTheme();
+
+  return (
+    <React.Fragment>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {[
+            { name: "หน้าแรก", route: "/home", icon: <HomeIcon /> },
+            {
+              name: "ดูข้อมูลสายตัวเอง",
+              route: "/selfLineData",
+              icon: <HistoryIcon />,
+            },
+            {
+              name: "ดูข้อมูลการเล่น",
+              route: "/home",
+              icon: <DesktopWindowsIcon />,
+            },
+            { name: "ผลแพ้ชนะ", route: "/home", icon: <EmojiEventsIcon /> },
+            { name: "ยอดได้เสีย", route: "/home", icon: <BlindsClosedIcon /> },
+          ].map((text, index) => (
+            <ListItemButton
+              onClick={() => {
+                Router.push(text.route);
+              }}
+              key={text.name}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {text.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={text.name}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {["All mail", "Trash", "Spam"].map((text, index) => (
+            <ListItemButton
+              key={text}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          ))}
+        </List>
+      </Drawer>
+    </React.Fragment>
+  );
 }
