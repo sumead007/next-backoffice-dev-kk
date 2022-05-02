@@ -1,6 +1,8 @@
 import { Table } from "antd";
+import { NextPageContext } from "next";
 import qs from "qs";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 const getRandomuserParams = (params) => ({
   results: params.pagination.pageSize,
@@ -22,6 +24,7 @@ class AntTable extends React.Component {
     const { pagination } = this.state;
     this.fetch({ pagination });
     // console.log(this.props);
+    this.Counter;
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -59,9 +62,17 @@ class AntTable extends React.Component {
       });
   };
 
+  Counter() {
+    // ✅ Good: top-level in a function component
+    const dispatch = useDispatch();
+
+    // ...
+  }
+
   render() {
     const { data, pagination, loading } = this.state;
     const { columns } = this.props;
+
     return (
       <>
         <Table
@@ -76,5 +87,19 @@ class AntTable extends React.Component {
     );
   }
 }
+
+// // Called in server-side
+// AntTable.getInitialProps = (ctx: NextPageContext) => {
+//   let token;
+//   const isServer = !!ctx.req;
+//   // if (isServer && ctx.req.headers.cookie) {
+//   //   token = getCookie("token", ctx.req);
+//   // }
+//   // console.log("CMCookie : token " + token);
+//   // return { token };
+//   console.log("test");
+
+//   return {};
+// };
 
 export default AntTable;
