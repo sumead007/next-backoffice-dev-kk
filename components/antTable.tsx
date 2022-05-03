@@ -24,7 +24,6 @@ class AntTable extends React.Component {
     const { pagination } = this.state;
     this.fetch({ pagination });
     // console.log(this.props);
-    this.Counter;
   }
 
   handleTableChange = (pagination, filters, sorter) => {
@@ -62,12 +61,6 @@ class AntTable extends React.Component {
       });
   };
 
-  Counter() {
-    // ✅ Good: top-level in a function component
-    const dispatch = useDispatch();
-
-    // ...
-  }
 
   render() {
     const { data, pagination, loading } = this.state;

@@ -10,7 +10,7 @@ export default function Index({}: Props) {
 
 //server side
 Index.getInitialProps = async ({ res, err }) => {
-  res.writeHead(301, { Location: "/home" });
+  res.writeHead(301, { Location: "/login" });
   res.end();
   return {};
 };
