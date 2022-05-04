@@ -1,12 +1,17 @@
 import React from "react";
 import { Form, Input, Button, Checkbox, Avatar, Card } from "antd";
+import { useDispatch } from "react-redux";
+import actions from "../redux/actions";
 
 type Props = {};
 
 export default function login({}: Props) {
+  const dispatch = useDispatch();
+
   const { Meta } = Card;
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    dispatch(actions.login(values))
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -24,12 +29,7 @@ export default function login({}: Props) {
     <div style={style}>
       <Card
         style={{ width: 380 }}
-        cover={
-          <img
-            alt="example"
-            src="static/images/login.jpeg"
-          />
-        }
+        cover={<img alt="example" src="static/images/login.jpeg" />}
       >
         <Meta
         //   title="เข้าสู่ระบบ"
