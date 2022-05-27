@@ -6,6 +6,8 @@ const initialState: Login = {
   result: null,
   token: "",
   username: "",
+  message: "",
+  prefix: "",
 };
 
 export default (state = initialState, { type, payload }): Login => {
@@ -18,6 +20,8 @@ export default (state = initialState, { type, payload }): Login => {
         result: null,
         token: "",
         username: "",
+        message: "",
+        prefix: "",
       };
     case actions.LOGIN_FAILED:
       return {
@@ -27,16 +31,20 @@ export default (state = initialState, { type, payload }): Login => {
         result: null,
         token: "",
         username: "",
+        message: payload.result.message,
+        prefix: "",
       };
-      case actions.LOGIN_SUCCESS:
-        return {
-          ...state,
-          isFetching: false,
-          isFailed: false,
-          result: payload,
-          token: payload.token,
-          username: payload.username,
-        };
+    case actions.LOGIN_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isFailed: false,
+        result: payload,
+        token: payload.result.token,
+        username: payload.result.username,
+        message: "",
+        prefix: payload.result.prefix,
+      };
 
     default:
       return state;

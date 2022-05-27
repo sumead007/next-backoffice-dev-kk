@@ -4,4 +4,6 @@ export interface Login {
   isFailed: boolean;
   token: string;
   username: string;
+  prefix: string;
+  message: "";
 }

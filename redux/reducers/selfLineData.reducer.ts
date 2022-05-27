@@ -20,8 +20,8 @@ export default (
         result: null,
         isFetching: true,
         isFailed: false,
-        data: payload.data,
-        pagination: payload.pagination,
+        // data: payload.data,
+        // pagination: payload.pagination,
       };
     case actions.SELF_LINE_DATA_FAILED:
       return {

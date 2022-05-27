@@ -1,6 +1,8 @@
-import { combineReducers } from 'redux';
-import selfLineData from "./selfLineData.reducer";
+import { combineReducers } from "redux";
+import selfLineDataReducer from "./selfLineData.reducer";
+import loginReducer from "./login.reducer";
 
 export default combineReducers({
-    selfLineData
+  loginReducer,
+  selfLineDataReducer,
 });

@@ -61,7 +61,6 @@ class AntTable extends React.Component {
       });
   };
 
-
   render() {
     const { data, pagination, loading } = this.state;
     const { columns } = this.props;

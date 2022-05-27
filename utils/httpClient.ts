@@ -10,31 +10,38 @@ const httpClient = axios.create({
 });
 
 // export const setInterceptor = (dispatch) => {
-//   // ทุกreuest => api
-//   httpClient.interceptors.request.use((req) => {
-//     const token = getCookie(kToken);
-//     if (token) req.headers = { "x-access-token": token };
-//     return req;
-//   });
+// ทุกreuest => api
+httpClient.interceptors.request.use((req) => {
+  const token = getCookie(kToken);
+  // console.log("token:" + token);
+  console.log("test");
 
-//   //ทุก response ที่ยิงกลับมา
+  if (token)
+    req.headers = {
+      // "x-access-token": token,
+      Authorization: "Bearer ".concat(token),
+    };
+  return req;
+});
 
-//   httpClient.interceptors.response.use(
-//     function (response) {
-//       return response;
-//     },
-//     function (error) {
-//       if (
-//         403 === error.response.status ||
-//         401 === error.response.status ||
-//         500 === error.response.status
-//       ) {
-//         dispatch(actions.logout())
-//       } else {
-//         return Promise.reject(error);
-//       }
-//     }
-//   );
-  
+//ทุก response ที่ยิงกลับมา
+
+httpClient.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (
+      403 === error.response.status ||
+      401 === error.response.status ||
+      500 === error.response.status
+    ) {
+      // dispatch(actions.logout())
+      console.log("log logout");
+    } else {
+      return Promise.reject(error);
+    }
+  }
+);
 // };
 export default httpClient;

@@ -73,7 +73,7 @@ export default function Slidebar({ open, handleDrawerClose }: Props) {
   const theme = useTheme();
 
   return (
-    <React.Fragment>
+    <>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -153,6 +153,6 @@ export default function Slidebar({ open, handleDrawerClose }: Props) {
           ))}
         </List>
       </Drawer>
-    </React.Fragment>
+    </>
   );
 }

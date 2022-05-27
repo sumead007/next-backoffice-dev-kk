@@ -4,4 +4,5 @@ export interface SelfLineDataReducer {
   isFailed: boolean;
   data: [];
   pagination: {};
+  message:"";
 }

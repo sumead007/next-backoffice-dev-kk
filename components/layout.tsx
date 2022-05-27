@@ -30,7 +30,7 @@ export default function Layout({ children }: Props) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
@@ -40,6 +40,6 @@ export default function Layout({ children }: Props) {
           {children}
         </Box>
       </Box>
-    </React.Fragment>
+    </>
   );
 }
