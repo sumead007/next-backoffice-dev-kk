@@ -4,8 +4,17 @@ import "antd/dist/antd.css";
 import Head from "next/head";
 import App from "next/app";
 import { wrapper } from "../redux";
+import React from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [showChild, setShowChild] = React.useState(false);
+  React.useEffect(() => {
+    setShowChild(true);
+  }, []);
+
+  if (!showChild) {
+    return null;
+  }
   return (
     <>
       <Head>

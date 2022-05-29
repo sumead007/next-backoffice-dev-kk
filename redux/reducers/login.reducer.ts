@@ -45,6 +45,8 @@ export default (state = initialState, { type, payload }): Login => {
         message: "",
         prefix: payload.result.prefix,
       };
+    case actions.LOGOUT_SUCCESS:
+      return initialState;
 
     default:
       return state;

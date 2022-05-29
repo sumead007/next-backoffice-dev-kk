@@ -17,6 +17,10 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DesktopWindowsIcon from "@mui/icons-material/DesktopWindows";
 import BlindsClosedIcon from "@mui/icons-material/BlindsClosed";
 import Router from "next/router";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useDispatch } from "react-redux";
+import actions from "../redux/actions";
+import { removeCookie } from "../utils/cookie";
 type Props = {
   open: any;
   handleDrawerClose: any;
@@ -71,7 +75,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function Slidebar({ open, handleDrawerClose }: Props) {
   const theme = useTheme();
+  const dispatch = useDispatch();
 
+  const logout = () => {
+    dispatch(actions.logout());
+
+  };
   return (
     <>
       <Drawer variant="permanent" open={open}>
@@ -130,10 +139,20 @@ export default function Slidebar({ open, handleDrawerClose }: Props) {
         </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
+          {[
+            {
+              name: "ออกจากระบบ",
+
+              icon: <LogoutIcon style={{ color: "red" }} />,
+              color: "red",
+              myfunction: logout,
+            },
+          ].map((text, index) => (
             <ListItemButton
-              key={text}
+              onClick={text.myfunction}
+              key={text.name}
               sx={{
+                color: text.color,
                 minHeight: 48,
                 justifyContent: open ? "initial" : "center",
                 px: 2.5,
@@ -146,9 +165,12 @@ export default function Slidebar({ open, handleDrawerClose }: Props) {
                   justifyContent: "center",
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {text.icon}
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText
+                primary={text.name}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
             </ListItemButton>
           ))}
         </List>

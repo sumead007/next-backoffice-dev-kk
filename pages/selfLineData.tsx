@@ -13,7 +13,6 @@ import type { ColumnsType, TablePaginationConfig } from "antd/lib/table";
 import qs from "qs";
 import httpClient from "../utils/httpClient";
 import { kToken } from "../utils/contants";
-
 const { RangePicker } = DatePicker;
 type Props = {};
 const formItemLayout = {
@@ -161,27 +160,32 @@ export default function SelfLineData({}: Props) {
 
   const fetchData = (params: Params = {}) => {
     setLoading(true);
-    httpClient
-      .get(
-        `/customer/reference/list?${qs.stringify(getRandomuserParams(params))}`,
-        {
-          headers: { Authorization: "Bearer ".concat(token) },
-        }
-      )
-      .then(({ data }) => {
-        // console.log(data.data);
-        const { data: newdata } = data.data;
-        console.log(newdata);
+    setTimeout(function () {
+      httpClient
+        .get(
+          `/customer/reference/list?${qs.stringify(
+            getRandomuserParams(params)
+          )}`,
+          {
+            headers: { Authorization: "Bearer ".concat(token) },
+          }
+        )
+        .then(({ data }) => {
+          // console.log(data.data);
+          const { data: newdata } = data.data;
+          console.log(newdata);
 
-        setData(newdata);
-        setLoading(false);
-        setPagination({
-          ...params.pagination,
-          // total: 200,
-          // 200 is mock data, you should read it from server
-          total: data.data.total_rows, //จำนวนทั้งหมด
-        });
-      });
+          setData(newdata);
+          setLoading(false);
+          setPagination({
+            ...params.pagination,
+            // total: 200,
+            // 200 is mock data, you should read it from server
+            total: data.data.total_rows, //จำนวนทั้งหมด
+          });
+        })
+        .catch(() => {});
+    }, 2000);
 
     // fetch(
     //   `https://randomuser.me/api?${qs.stringify(getRandomuserParams(params))}`

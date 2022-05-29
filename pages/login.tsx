@@ -6,9 +6,11 @@ import { getCookie } from "../utils/cookie";
 import { kToken } from "../utils/contants";
 import { Alert } from "antd";
 
-type Props = {};
+type Props = {
+  token?: string;
+};
 
-export default function login({}: Props) {
+export default function login({ token }: Props) {
   const dispatch = useDispatch();
   const loginReducer = useSelector((state) => state.loginReducer); //ชื่อตรง index reducer
 
@@ -19,12 +21,15 @@ export default function login({}: Props) {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
-  // React.useEffect(() => {
-  //   console.log(getCookie(kToken));
-  // }, []);
+  React.useEffect(() => {
+    // console.log(getCookie(kToken));
+    console.log(token);
+    
+    dispatch(actions.relogin({ token }));
+  }, []);
 
   const style = {
     display: "flex",
@@ -41,7 +46,7 @@ export default function login({}: Props) {
   return (
     <div style={style}>
       <Card
-        style={{ width: 380 }}
+        style={{ width: 400 }}
         cover={<img alt="example" src="static/images/login.jpeg" />}
       >
         <Meta
@@ -71,7 +76,7 @@ export default function login({}: Props) {
           <Form.Item
             label="Username"
             name="username"
-            rules={[{ required: true, message: "Please input your username!" }]}
+            rules={[{ required: true, message: "โปรดกรอกช่องนี้!" }]}
           >
             <Input />
           </Form.Item>
@@ -79,14 +84,14 @@ export default function login({}: Props) {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: "โปรดกรอกช่องนี้!" }]}
           >
             <Input.Password />
           </Form.Item>
           <Form.Item
             label="Prefix"
             name="prefix"
-            rules={[{ required: true, message: "Please input your prefix!" }]}
+            rules={[{ required: true, message: "โปรดกรอกช่องนี้!" }]}
           >
             <Input />
           </Form.Item>
@@ -106,6 +111,18 @@ export default function login({}: Props) {
           </Form.Item>
         </Form>
       </Card>
+      <style jsx global>
+        {`
+          body {
+            min-height: 100vh;
+            position: relative;
+            margin: 0px;
+            background-size: cover;
+            background-image: url("/static/images/bg.jpg");
+            text-align: center;
+          }
+        `}
+      </style>
     </div>
   );
 }

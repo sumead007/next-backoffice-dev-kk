@@ -28,11 +28,17 @@ export const logoutSuccess = () => ({
   type: actionTypes.LOGOUT_SUCCESS,
 });
 
+export const relogin = (payload) => ({
+  type: actionTypes.RELOGIN_REQUEST,
+  payload
+})
+
 export default {
   login,
   loginFetching,
   loginSuccess,
   loginFailed,
   logout,
-  logoutSuccess
+  logoutSuccess,
+  relogin
 };

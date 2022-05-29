@@ -4,38 +4,105 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Layout from "../components/layout";
+import { Card, Row, Col } from "antd";
+import LogoutIcon from "@mui/icons-material/Logout";
+import EventIcon from "@mui/icons-material/Event";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import DevicesOtherIcon from "@mui/icons-material/DevicesOther";
+import { useDispatch, useSelector } from "react-redux";
+import actions from "../redux/actions";
+import axios from "axios";
+import httpClient from "../utils/httpClient";
 
-export default function MiniDrawer() {
+const gridStyle: React.CSSProperties = {
+  width: 300,
+  textAlign: "center",
+  height: "50vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "row",
+};
+
+const style: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "row",
+  width: "100%",
+  // minHeight:"100%",
+  height: "100vh",
+};
+const { Meta } = Card;
+export default function MiniDrawer({ token }) {
+  const dispatch = useDispatch();
+  const loginReducer = useSelector((state) => state.loginReducer); //ชื่อตรง index reducer
+
+  React.useEffect(() => {
+    // console.log(getCookie(kToken));
+
+    dispatch(actions.relogin({ token }));
+    load_data();
+    // console.log(loginReducer.token);
+  }, []);
+
+  const load_data = async () => {
+    const AuthStr = "Bearer ".concat(loginReducer.token);
+    const res = httpClient.get(`/customer/reference/list`, {
+      headers: { Authorization: "Bearer ".concat(token) },
+    });
+    console.log(res);
+
+    // setproducts(res.data);
+    // console.log(products);
+  };
+
   return (
-    <Layout>
-      <Typography paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
-        non enim praesent elementum facilisis leo vel. Risus at ultrices mi
-        tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non
-        tellus. Convallis convallis tellus id interdum velit laoreet id donec
-        ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl
-        suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod
-        quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet
-        proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras
-        tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum
-        varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-        Lorem donec massa sapien faucibus et molestie ac.
-      </Typography>
-      <Typography paragraph>
-        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-        ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar elementum
-        integer enim neque volutpat ac tincidunt. Ornare suspendisse sed nisi
-        lacus sed viverra tellus. Purus sit amet volutpat consequat mauris.
-        Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-        vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra
-        accumsan in. In hendrerit gravida rutrum quisque non tellus orci ac.
-        Pellentesque nec nam aliquam sem et tortor. Habitant morbi tristique
-        senectus et. Adipiscing elit duis tristique sollicitudin nibh sit.
-        Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra
-        maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
-        aliquam ultrices sagittis orci a.
-      </Typography>
-    </Layout>
+    <div style={style}>
+      <Row gutter={16}>
+        <Col span={6}>
+          <Card.Grid style={{ ...gridStyle, color: "#00CC00" }}>
+            <Box>
+              <PeopleAltIcon style={{ fontSize: 180 }} />
+              <br />
+              <Box component={"h1"}>ข้อมูลเพื่อนที่แนะนำ</Box>
+            </Box>
+          </Card.Grid>
+        </Col>
+        <Col span={6}>
+          <Card.Grid style={{ ...gridStyle, color: "#FF9933" }}>
+            <Box>
+              <EventIcon style={{ fontSize: 180 }} />
+              <br />
+              <Box component={"h1"}>กิจกรรม</Box>
+            </Box>
+          </Card.Grid>
+        </Col>
+        <Col span={6}>
+          <Card.Grid style={{ ...gridStyle, color: "#A0A0A0" }}>
+            <Box>
+              <DevicesOtherIcon style={{ fontSize: 180 }} />
+              <br />
+              <Box component={"h1"}>อื่นๆ</Box>
+            </Box>
+          </Card.Grid>
+        </Col>
+        <Col span={6}>
+          <Card.Grid
+            style={{ ...gridStyle, color: "red" }}
+            onClick={() => {
+              dispatch(actions.logout());
+              // console.log('test');
+            }}
+          >
+            <Box>
+              <LogoutIcon style={{ fontSize: 180 }} />
+              <br />
+              <Box component={"h1"}>ออกจากระบบ</Box>
+            </Box>
+          </Card.Grid>
+        </Col>
+      </Row>
+    </div>
   );
 }

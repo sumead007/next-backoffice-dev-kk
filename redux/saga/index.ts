@@ -1,6 +1,6 @@
 import { takeEvery, all } from "redux-saga/effects";
 import * as actionTypes from "./actionTypes";
-import { sagaLogin, sagaLogout } from "./login.saga";
+import { sagaLogin, sagaLogout, sagaReLogin } from "./login.saga";
 import { sagaSelfLineData } from "./selfLineData.saga";
 
 // Login
@@ -17,6 +17,16 @@ function* watchLogoutRequest() {
   yield takeEvery(actionTypes.LOGOUT_REQUEST, sagaLogout);
 }
 
+// ReLogin
+function* watchReLoginRequest() {
+  yield takeEvery(actionTypes.RELOGIN_REQUEST, sagaReLogin);
+}
+
 export default function* rootSaga() {
-  yield all([watchLoginRequest(), watchSelfLineData(), watchLogoutRequest()]);
+  yield all([
+    watchLoginRequest(),
+    watchSelfLineData(),
+    watchLogoutRequest(),
+    watchReLoginRequest(),
+  ]);
 }

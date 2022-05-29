@@ -31,12 +31,20 @@ httpClient.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log(error);
+
     if (
       403 === error.response.status ||
       401 === error.response.status ||
-      500 === error.response.status
+      500 === error.response.status ||
+      502 === error.response.status ||
+      "ERR_NETWORK" === error.code
     ) {
       // dispatch(actions.logout())
+
+      removeCookie("token");
+      Router.push("/login");
+
       console.log("log logout");
     } else {
       return Promise.reject(error);
