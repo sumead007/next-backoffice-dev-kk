@@ -6,13 +6,13 @@ import Router from "next/router";
 import axios from "axios";
 import { setCookie, removeCookie, getCookie } from "../../utils/cookie";
 
-export function* sagaLogin({ payload }: any) {
+export function* sagaLogin({ payload }: any):any {
   try {
     yield put(actions.loginFetching());
     // console.log("test");
     // console.log(payload);
 
-    const response = yield call(httpClient.post, "/customer/login", payload);
+    const response:any = yield call(httpClient.post, "/customer/login", payload);
 
     //   const response = yield call();
     const { data } = response;
@@ -42,21 +42,21 @@ export function* sagaLogin({ payload }: any) {
 export function* sagaLogout() {
   removeCookie("token");
   console.log("logout");
-  
+
   yield put(actions.logoutSuccess());
   Router.push("/login");
 }
 
-export function* sagaReLogin(payload) {
+export function* sagaReLogin({ payload }: any):any {
   const state = yield select();
 
   yield delay(10);
   if (state.loginReducer.token) {
-    Router.push("/home");
+    // Router.push("/home");
   } else if (payload.token) {
     // debugger
     yield put(actions.loginSuccess(payload));
-    Router.push("/home");
+    // Router.push("/home");
   } else {
     const localToken = getCookie("token");
 

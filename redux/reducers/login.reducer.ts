@@ -3,21 +3,21 @@ import * as actions from "../saga/actionTypes";
 const initialState: Login = {
   isFailed: false,
   isFetching: false,
-  result: null,
+  result: "",
   token: "",
   username: "",
   message: "",
   prefix: "",
 };
 
-export default (state = initialState, { type, payload }): Login => {
+export default (state = initialState, { type, payload }: any): Login => {
   switch (type) {
     case actions.LOGIN_FETCHING:
       return {
         ...state,
         isFetching: true,
         isFailed: false,
-        result: null,
+        result: "",
         token: "",
         username: "",
         message: "",
@@ -28,7 +28,7 @@ export default (state = initialState, { type, payload }): Login => {
         ...state,
         isFetching: false,
         isFailed: true,
-        result: null,
+        result: "",
         token: "",
         username: "",
         message: payload.result.message,

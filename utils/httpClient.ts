@@ -14,7 +14,7 @@ const httpClient = axios.create({
 httpClient.interceptors.request.use((req) => {
   const token = getCookie(kToken);
   // console.log("token:" + token);
-  console.log("test");
+  // console.log("test");
 
   if (token)
     req.headers = {
@@ -31,7 +31,7 @@ httpClient.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log(error);
+    // console.log(error);
 
     if (
       403 === error.response.status ||
@@ -45,7 +45,7 @@ httpClient.interceptors.response.use(
       removeCookie("token");
       Router.push("/login");
 
-      console.log("log logout");
+      // console.log("log logout");
     } else {
       return Promise.reject(error);
     }

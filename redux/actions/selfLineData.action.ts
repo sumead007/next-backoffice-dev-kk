@@ -1,7 +1,7 @@
 //rxaction
 import * as actionTypes from "../saga/actionTypes";
 
-export const selfLineData = (payload) => ({
+export const selfLineData = (payload: any) => ({
   type: actionTypes.SELF_LINE_DATA_REQUEST,
   payload,
 });
@@ -10,7 +10,7 @@ export const selfLineDataFetching = () => ({
   type: actionTypes.SELF_LINE_DATA_FETCHING,
 });
 
-export const selfLineDataSuccess = (payload) => ({
+export const selfLineDataSuccess = (payload: any) => ({
   type: actionTypes.SELF_LINE_DATA_SUCCESS,
   payload,
 });

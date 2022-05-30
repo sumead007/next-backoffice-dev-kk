@@ -2,22 +2,23 @@ import { SelfLineDataReducer } from "../../types/selfLineData.reducer.types";
 import * as actions from "../saga/actionTypes";
 
 const initialState: SelfLineDataReducer = {
-  result: null,
+  result: "",
   isFailed: false,
   isFetching: false,
   data: [],
   pagination: {},
+  message: ""
 };
 
 export default (
   state = initialState,
-  { type, payload }
+  { type, payload }:any
 ): SelfLineDataReducer => {
   switch (type) {
     case actions.SELF_LINE_DATA_FETCHING:
       return {
         ...state,
-        result: null,
+        result: "",
         isFetching: true,
         isFailed: false,
         // data: payload.data,
@@ -26,7 +27,7 @@ export default (
     case actions.SELF_LINE_DATA_FAILED:
       return {
         ...state,
-        result: null,
+        result: "",
         isFetching: false,
         isFailed: true,
         data: [],

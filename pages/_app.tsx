@@ -4,11 +4,11 @@ import "antd/dist/antd.css";
 import Head from "next/head";
 import App from "next/app";
 import { wrapper } from "../redux";
-import React from "react";
+import React, { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showChild, setShowChild] = React.useState(false);
-  React.useEffect(() => {
+  useEffect(() => {
     setShowChild(true);
   }, []);
 
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-MyApp.getInitialProps = async (appContext) => {
+MyApp.getInitialProps = async (appContext: any) => {
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
   // console.log("test") // dev

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Checkbox, Avatar, Card } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import actions from "../redux/actions";
@@ -10,13 +10,14 @@ type Props = {
   token?: string;
 };
 
-export default function login({ token }: Props) {
+export default function Login({ token }: Props) {
   const dispatch = useDispatch();
-  const loginReducer = useSelector((state) => state.loginReducer); //ชื่อตรง index reducer
+  const loginReducer = useSelector((state: any) => state.loginReducer); //ชื่อตรง index reducer
+  var path = process.env.NEXT_PUBLIC_APP_BASE_IMAGE_URL;
 
   const { Meta } = Card;
   const onFinish = (values: any) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     dispatch(actions.login(values));
   };
 
@@ -24,10 +25,10 @@ export default function login({ token }: Props) {
     // console.log("Failed:", errorInfo);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     // console.log(getCookie(kToken));
-    console.log(token);
-    
+    // console.log(token);
+
     dispatch(actions.relogin({ token }));
   }, []);
 
@@ -47,11 +48,12 @@ export default function login({ token }: Props) {
     <div style={style}>
       <Card
         style={{ width: 400 }}
-        cover={<img alt="example" src="static/images/login.jpeg" />}
+        cover={<img alt="example" src="/static/images/login3.jpeg" />}
       >
         <Meta
-        //   title="เข้าสู่ระบบ"
-        //   description="www.instagram.com"
+          title="กรุณาเข้าสู่ระบบ"
+          style={{ marginBottom: 16 }}
+          //   description="www.instagram.com"
         />
         {loginReducer.isFailed && (
           <Alert
@@ -99,12 +101,12 @@ export default function login({ token }: Props) {
           <Form.Item
             name="remember"
             valuePropName="checked"
-            wrapperCol={{ offset: 8, span: 16 }}
+            wrapperCol={{ offset: 4, span: 0 }}
           >
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Form.Item wrapperCol={{ offset: 4, span: 0 }}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
@@ -126,3 +128,8 @@ export default function login({ token }: Props) {
     </div>
   );
 }
+
+// export async function getStaticProps({ params: {slug} }:any ) {
+//   // ↓add
+//   console.log(`Building slug: ${slug}`)
+// }
